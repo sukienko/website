@@ -514,11 +514,30 @@ body::after{
 ═══════════════════════════════════════ -->
 <section id="landing">
 
-  <div class="hero-top">
-    <p class="hero-eyebrow">A creative portfolio</p>
-    <h1 class="hero-name">Sukanya</h1>
-    <p class="hero-sub">writer · artist · dreamer</p>
+```html
+<section id="landing">
+  <div class="hero-center">
+    <img src="your-text-image.png" alt="Sukanya" class="hero-image">
   </div>
+</section>
+
+<style>
+#landing {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-image {
+  max-width: 60%;
+  height: auto;
+  opacity: 0.95;
+}
+</style>
+```
+
 
   <!-- Three big bouquets -->
   <div id="garden">
