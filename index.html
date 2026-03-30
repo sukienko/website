@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
+  <title>Sukhi's Website</title>
 </head>
 <body>
 TESTING
@@ -197,20 +197,16 @@ footer{background:var(--in);border-top:1px solid rgba(255,255,255,.05);padding:1
   <div id="bouquet-field">
     <!-- positions: --fx/--fy are final translated positions, --fr = rotation -->
     <div class="bq" id="bq1" style="--fx:-37vw;--fy:-14vh;--fr:-7deg;">
-      <span style="font-size:2.2rem;opacity:.22">🌸</span>
-      <span class="bq-lbl">insertbouquet1.png</span>
+      <img src="RoughBoquet1.png" alt="bouquet">
     </div>
     <div class="bq" id="bq2" style="--fx:35vw;--fy:-17vh;--fr:6deg;">
-      <span style="font-size:2.2rem;opacity:.22">🌿</span>
-      <span class="bq-lbl">insertbouquet2.png</span>
+      <img src="RoughBoquet1.png" alt="bouquet">
     </div>
     <div class="bq" id="bq3" style="--fx:-29vw;--fy:19vh;--fr:-4deg;">
-      <span style="font-size:2.2rem;opacity:.22">✿</span>
-      <span class="bq-lbl">insertbouquet3.png</span>
+      <img src="RoughBoquet1.png" alt="bouquet">
     </div>
     <div class="bq" id="bq4" style="--fx:27vw;--fy:17vh;--fr:8deg;">
-      <span style="font-size:2.2rem;opacity:.22">🌷</span>
-      <span class="bq-lbl">insertbouquet4.png</span>
+      <img src="RoughBoquet1.png" alt="bouquet">
     </div>
   </div>
 
@@ -231,7 +227,6 @@ footer{background:var(--in);border-top:1px solid rgba(255,255,255,.05);padding:1
 
   <a class="hero-cta" href="INSERTYOURLINKEDINLINKHERE" target="_blank" rel="noopener">
     Reach me on LinkedIn →
-    <!-- ↑ Replace INSERTYOURLINKEDINLINKHERE with your full LinkedIn URL, e.g. https://linkedin.com/in/sukanyamenon -->
   </a>
 
   <div class="hero-scroll">
@@ -315,17 +310,14 @@ footer{background:var(--in);border-top:1px solid rgba(255,255,255,.05);padding:1
       <a class="cl" href="INSERTYOURLINKEDINLINKHERE" target="_blank" rel="noopener">
         <span class="cll">LinkedIn</span>
         <span class="clv">linkedin.com/in/YOURUSERNAME</span>
-        <!-- ↑ replace YOURUSERNAME and INSERTYOURLINKEDINLINKHERE -->
       </a>
       <a class="cl" href="mailto:INSERTYOUREMAILHERE">
         <span class="cll">Email</span>
         <span class="clv">INSERTYOUREMAILHERE</span>
-        <!-- ↑ replace INSERTYOUREMAILHERE with your actual email -->
       </a>
       <a class="cl" href="INSERTOTHERLINK" target="_blank" rel="noopener">
         <span class="cll">Elsewhere</span>
         <span class="clv">Insert link here</span>
-        <!-- ↑ replace or delete this whole block -->
       </a>
     </div>
   </div>
@@ -352,7 +344,6 @@ window.addEventListener('wheel',e=>{
   tgt_y=Math.max(0,Math.min(document.body.scrollHeight-innerHeight,tgt_y+e.deltaY*1.08));
   if(!raf_going){raf_going=true;requestAnimationFrame(tick_scroll);}
 },{passive:false});
-// keep cur_y in sync when scrolled by other means
 window.addEventListener('scroll',()=>{if(!raf_going)cur_y=tgt_y=window.scrollY;},{passive:true});
 function goTo(id,e){
   if(e)e.preventDefault();
@@ -383,7 +374,6 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 
 /* ── BOUQUET BLOOM ── */
-// Stagger bloom after page load
 const bqs=['bq1','bq2','bq3','bq4'];
 function bloomAll(){
   bqs.forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.add('open'),i*160+300));
@@ -445,7 +435,7 @@ art.forEach((a,i)=>{
 });
 
 let rY=0,vY=0,drag=false,lx=0,lt=0,touched=false;
-const friction=0.965,sens=0.26,autoV=0.18; // slower
+const friction=0.965,sens=0.26,autoV=0.18;
 
 (function frame(){
   if(!drag){
