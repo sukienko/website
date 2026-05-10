@@ -5,460 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sukanya Menon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --birch:   #ECE1C9;
-  --pollen:  #CFA96F;
-  --sand:    #BD5B30;
-  --petals:  #793B2B;
-  --charcoal:#342B22;
-  --ink:     #1C1410;
-  --muted:   #8A7060;
-  --border:  #4A3828;
-  --mono: 'DM Mono', monospace;
-  --serif: 'EB Garamond', Georgia, serif;
-  --display: 'Playfair Display', Georgia, serif;
-}
-
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--charcoal);
-  color: var(--birch);
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  line-height: 1.7;
-  overflow-x: hidden;
-  cursor: none;
-}
-
-/* ── CURSOR ── */
-#cur {
-  width: 8px; height: 8px;
-  background: var(--pollen);
-  border-radius: 50%;
-  position: fixed; pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: width .15s, height .15s;
-  mix-blend-mode: screen;
-}
-#cur.big { width: 24px; height: 24px; opacity: .55; }
-
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 600;
-  display: flex; align-items: center; justify-content: center;
-  padding: 1.2rem 3rem;
-  transition: background .35s, border-color .35s;
-  border-bottom: 1px solid transparent;
-}
-nav.filled {
-  background: rgba(28,20,16,.93);
-  backdrop-filter: blur(16px);
-  border-color: var(--border);
-}
-.nav-links { display: flex; gap: 2.4rem; list-style: none; }
-.nav-links a {
-  font-family: var(--mono);
-  font-size: .7rem;
-  letter-spacing: .16em;
-  text-decoration: none;
-  color: var(--muted);
-  text-transform: lowercase;
-  transition: color .2s;
-  opacity: 0;
-  animation: fadeup .6s calc(.4s + var(--d,0s)) both;
-}
-.nav-links a:hover, .nav-links a.act { color: var(--pollen); }
-
-/* ── HERO ── */
-#hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  text-align: center;
-  padding: 80px 2rem 0;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--ink);
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* center vignette */
-#hero::before {
-  content: '';
-  position: absolute; inset: 0; z-index: 1;
-  background: radial-gradient(ellipse 68% 58% at 50% 46%, var(--ink) 18%, transparent 100%);
-  pointer-events: none;
-}
-
-/* bottom fade into charcoal */
-#hero::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 38vh; z-index: 2;
-  background: linear-gradient(to bottom, transparent, var(--charcoal));
-  pointer-events: none;
-}
-
-.hero-avatar, .hero-name, .hero-desc, .hero-links, .hero-corner {
-  position: relative; z-index: 3;
-}
-
-/* ── CIRCULAR AVATAR ── */
-.hero-avatar {
-  width: 110px; height: 110px;
-  border-radius: 50%;
-  border: 2px solid rgba(207,169,111,.3);
-  overflow: hidden;
-  margin-bottom: 1.6rem;
-  background: rgba(207,169,111,.06);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0;
-  animation: fadeup .7s .2s both;
-}
-.hero-avatar img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-/* placeholder shown when no image */
-.hero-avatar-placeholder {
-  font-family: var(--mono);
-  font-size: .55rem;
-  letter-spacing: .18em;
-  color: rgba(207,169,111,.3);
-  text-align: center;
-  text-transform: lowercase;
-  line-height: 1.7;
-  padding: .5rem;
-}
-
-.hero-name {
-  font-family: var(--display);
-  font-size: clamp(5rem, 14vw, 11rem);
-  font-weight: 400;
-  line-height: .9;
-  color: var(--birch);
-  opacity: 0;
-  animation: fadeup .9s .35s both;
-}
-.hero-name em {
-  font-style: italic;
-  color: var(--pollen);
-  display: block;
-}
-.hero-name::after {
-  content: '_';
-  font-style: normal;
-  color: var(--sand);
-  animation: blink 1.1s step-end infinite;
-  animation-delay: 1.2s;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-.hero-desc {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(.9rem, 1.8vw, 1.12rem);
-  color: var(--muted);
-  margin-top: 1.4rem;
-  max-width: 380px;
-  opacity: 0;
-  animation: fadeup .7s .7s both;
-}
-
-.hero-links {
-  display: flex; gap: 1.8rem; flex-wrap: wrap; justify-content: center;
-  margin-top: 2rem;
-  margin-bottom: 12vh;
-  opacity: 0;
-  animation: fadeup .7s .9s both;
-}
-.hero-links a {
-  font-family: var(--mono);
-  font-size: .7rem;
-  letter-spacing: .2em;
-  text-decoration: none;
-  color: var(--muted);
-  text-transform: lowercase;
-  position: relative;
-  transition: color .2s;
-}
-.hero-links a::after {
-  content: '';
-  position: absolute; bottom: -2px; left: 0; right: 0;
-  height: 1px; background: var(--pollen);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .25s;
-}
-.hero-links a:hover { color: var(--pollen); }
-.hero-links a:hover::after { transform: scaleX(1); }
-
-.hero-corner {
-  position: absolute; z-index: 3;
-  font-family: var(--mono); font-size: .59rem;
-  letter-spacing: .2em; color: rgba(207,169,111,.15);
-  text-transform: lowercase;
-  opacity: 0; animation: fadeup .6s 1.1s both;
-}
-.hero-corner.tl { top: 2.8rem; left: 3rem; }
-.hero-corner.tr { top: 2.8rem; right: 3rem; }
-.hero-corner.bl { bottom: 3.5rem; left: 3rem; }
-.hero-corner.br { bottom: 3.5rem; right: 3rem; }
-
-/* ── SHARED ── */
-.inner { max-width: 960px; margin: 0 auto; padding: 6rem 2rem; }
-section + section { border-top: 1px solid var(--border); }
-
-.sec-title {
-  font-family: var(--display);
-  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
-  font-weight: 400;
-  line-height: 1.05;
-  color: var(--birch);
-  margin-bottom: 2.8rem;
-}
-.sec-title em { font-style: italic; color: var(--pollen); }
-
-.sr { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
-.sr.vis { opacity: 1; transform: none; }
-.sr.d1 { transition-delay: .08s; }
-.sr.d2 { transition-delay: .16s; }
-.sr.d3 { transition-delay: .24s; }
-
-/* ── WRITING ── */
-#writing { background: var(--charcoal); }
-
-.filter-row { display: flex; gap: .45rem; flex-wrap: wrap; margin-bottom: 2.4rem; }
-.ftab {
-  font-family: var(--mono);
-  font-size: .66rem;
-  letter-spacing: .14em;
-  border: 1px solid var(--border);
-  background: none;
-  color: var(--muted);
-  padding: .3rem .9rem;
-  cursor: pointer;
-  transition: background .2s, color .2s, border-color .2s;
-  text-transform: lowercase;
-}
-.ftab:hover, .ftab.on {
-  background: var(--pollen);
-  color: var(--ink);
-  border-color: var(--pollen);
-}
-
-/* shared list style for writing + research */
-.writing-list { display: flex; flex-direction: column; }
-
-.writing-entry {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  padding: 1.15rem 0;
-  border-top: 1px solid var(--border);
-  text-decoration: none;
-  color: inherit;
-  position: relative;
-  cursor: pointer;
-}
-.writing-entry:last-child { border-bottom: 1px solid var(--border); }
-.writing-entry::before {
-  content: '';
-  position: absolute; left: -2rem; top: 0; bottom: 0; right: -2rem;
-  background: var(--petals); opacity: 0;
-  transition: opacity .2s; z-index: 0;
-}
-.writing-entry:hover::before { opacity: 1; }
-.writing-entry:hover .we-title,
-.writing-entry:hover .we-tag,
-.writing-entry:hover .we-date { color: var(--birch); }
-.we-left { position: relative; z-index: 1; }
-.we-title {
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 1.12rem;
-  color: var(--birch);
-  display: block;
-  transition: color .18s;
-}
-.we-tag {
-  font-family: var(--mono);
-  font-size: .62rem;
-  letter-spacing: .22em;
-  color: var(--sand);
-  text-transform: lowercase;
-  display: block;
-  margin-top: .12rem;
-  transition: color .18s;
-}
-.writing-entry:hover .we-tag { color: var(--pollen); }
-.we-date {
-  font-family: var(--mono);
-  font-size: .66rem;
-  color: var(--muted);
-  position: relative; z-index: 1;
-  transition: color .18s;
-}
-.writing-entry.hid { display: none; }
-
-/* research entries — slightly different style within same list */
-.writing-entry.research .we-title { font-style: normal; font-size: 1.05rem; }
-.writing-entry.research .we-tag { color: var(--muted); }
-.writing-entry.research:hover .we-tag { color: var(--pollen); }
-
-/* ── VISUAL WORKS ── */
-#art { background: var(--ink); }
-
-.art-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-  gap: .9rem;
-}
-.art-card {
-  aspect-ratio: 3/4;
-  background: rgba(207,169,111,.04);
-  border: 1px solid rgba(207,169,111,.1);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; position: relative;
-  transition: border-color .25s, transform .3s cubic-bezier(.34,1.3,.64,1);
-  cursor: pointer;
-}
-.art-card:hover { border-color: var(--sand); transform: translateY(-4px); }
-.art-card img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
-.art-placeholder {
-  font-family: var(--mono); font-size: .6rem;
-  letter-spacing: .2em; color: rgba(207,169,111,.18);
-  text-align: center; text-transform: lowercase; line-height: 1.7;
-}
-.art-label {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: rgba(28,20,16,.88);
-  backdrop-filter: blur(6px);
-  padding: .5rem .75rem;
-  font-family: var(--mono); font-size: .59rem;
-  letter-spacing: .18em; color: rgba(236,225,201,.6);
-  text-transform: lowercase;
-  transform: translateY(100%);
-  transition: transform .25s ease;
-}
-.art-card:hover .art-label { transform: translateY(0); }
-
-/* ── VIDEOS ── */
-#videos { background: var(--charcoal); }
-
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-  gap: 1.2rem;
-}
-.video-card {
-  text-decoration: none; color: inherit;
-  display: flex; flex-direction: column;
-  border: 1px solid var(--border);
-  background: rgba(207,169,111,.03);
-  transition: border-color .2s, transform .25s;
-}
-.video-card:hover { border-color: var(--pollen); transform: translateY(-3px); }
-.video-thumb {
-  aspect-ratio: 16/9;
-  background: var(--ink);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; position: relative;
-}
-.video-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.play-icon {
-  position: absolute;
-  width: 40px; height: 40px;
-  background: var(--petals);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  opacity: .9; transition: opacity .2s, transform .2s;
-}
-.video-card:hover .play-icon { opacity: 1; transform: scale(1.1); }
-.play-icon svg { width: 13px; height: 13px; fill: var(--birch); margin-left: 2px; }
-.video-info { padding: .9rem 1.1rem; }
-.video-title {
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 1rem;
-  color: var(--birch);
-  margin-bottom: .3rem;
-}
-.video-meta {
-  font-family: var(--mono);
-  font-size: .62rem;
-  letter-spacing: .14em;
-  color: var(--muted);
-  text-transform: lowercase;
-}
-
-/* ── CONTACT ── */
-#contact { background: var(--ink); text-align: center; }
-.contact-tagline {
-  font-family: var(--serif); font-style: italic;
-  font-size: 1rem; color: var(--muted);
-  margin-bottom: 3rem; margin-top: -1.8rem;
-}
-.contact-links { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
-.contact-link {
-  display: flex; flex-direction: column; align-items: flex-start;
-  text-decoration: none;
-  border: 1px solid var(--border);
-  padding: 1.1rem 1.7rem;
-  min-width: 155px;
-  transition: border-color .2s, background .2s;
-}
-.contact-link:hover { border-color: var(--pollen); background: rgba(207,169,111,.06); }
-.cl-label {
-  font-family: var(--mono); font-size: .59rem;
-  letter-spacing: .3em; color: var(--muted);
-  text-transform: lowercase; margin-bottom: .3rem;
-}
-.cl-val { font-family: var(--serif); font-style: italic; font-size: .92rem; color: var(--birch); }
-
-/* ── FOOTER ── */
-footer {
-  background: var(--ink);
-  border-top: 1px solid var(--border);
-  padding: 1.4rem 3rem;
-  display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--mono); font-size: .62rem;
-  letter-spacing: .1em; color: var(--muted); opacity: .5;
-}
-
-/* ── ANIMATIONS ── */
-@keyframes fadeup {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.burst { position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
-.pk { position: absolute; width: 4px; height: 4px; border-radius: 50%; opacity: 0; animation: pkf .55s ease-out forwards; }
-@keyframes pkf {
-  0%  { transform: translate(0,0) scale(0); opacity: .9; }
-  100%{ transform: translate(var(--tx),var(--ty)) scale(.1); opacity: 0; }
-}
-
-@media(max-width: 700px) {
-  nav { padding: 1rem 1.4rem; }
-  nav.filled { padding: 1rem 1.4rem; }
-  .nav-links { gap: 1.4rem; }
-  .inner { padding: 4rem 1.4rem; }
-  .hero-corner { display: none; }
-  .art-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div id="cur"></div>
 
 <!-- ── NAV ── -->
 <nav id="nav">
@@ -472,25 +22,14 @@ footer {
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <span class="hero-corner tl">sukanya menon</span>
-  <span class="hero-corner tr">writer · artist</span>
-  <span class="hero-corner bl">© 2025</span>
-  <span class="hero-corner br">paoli, pa</span>
 
-  <!-- circular avatar — replace insertphoto.jpg with your image path -->
-  <div class="hero-avatar">
-    <img src="insertphoto.jpg" alt="Sukanya Menon"
-         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-    <div class="hero-avatar-placeholder" style="display:none">your<br>photo<br>here</div>
-  </div>
-
-  <h1 class="hero-name">Sukanya<br><em>Menon</em></h1>
+  <h1 class="hero-name">Sukanya Menon</h1>
 
   <p class="hero-desc">Highschool junior with a passion for creating and learning.</p>
 
   <div class="hero-links">
-    <a href="INSERTYOURLINKEDINLINKHERE" target="_blank" rel="noopener">linkedin</a>
-    <a href="mailto:INSERTYOUREMAILHERE">email</a>
+    <a href="https://www.linkedin.com/in/sukanya-menon-603503339/?skipRedirect=true" target="_blank" rel="noopener">linkedin</a>
+    <a href="mailto:soysukanya@gmail.com">email</a>
   </div>
 </section>
 
@@ -507,37 +46,25 @@ footer {
     <div class="writing-list sr d2">
 
       <!-- POETRY -->
-      <a class="writing-entry" data-t="poetry" href="#" target="_blank" rel="noopener">
-        <div class="we-left"><span class="we-title">Writing Title #1</span><span class="we-tag">poetry</span></div>
+      <a class="writing-entry" data-t="poetry" href="javascript:void(0)">
+        <div class="we-left"><span class="we-title">A Marshmallow Roasted Just Right</span><span class="we-tag">poetry</span></div>
         <span class="we-date">2025</span>
       </a>
-      <a class="writing-entry" data-t="poetry" href="#" target="_blank" rel="noopener">
-        <div class="we-left"><span class="we-title">Writing Title #2</span><span class="we-tag">poetry</span></div>
+      <a class="writing-entry" data-t="poetry" href="javascript:void(0)">
+        <div class="we-left"><span class="we-title">The Battle Unicorn</span><span class="we-tag">poetry</span></div>
         <span class="we-date">2025</span>
       </a>
-      <a class="writing-entry" data-t="poetry" href="#" target="_blank" rel="noopener">
-        <div class="we-left"><span class="we-title">Writing Title #3</span><span class="we-tag">poetry</span></div>
-        <span class="we-date">2024</span>
-      </a>
-
-      <!-- SHORT STORIES -->
-      <a class="writing-entry" data-t="stories" href="#" target="_blank" rel="noopener">
-        <div class="we-left"><span class="we-title">Writing Title #4</span><span class="we-tag">short story</span></div>
+      <a class="writing-entry" data-t="poetry" href="javascript:void(0)">
+        <div class="we-left"><span class="we-title">The Knowing the Unknowing</span><span class="we-tag">poetry</span></div>
         <span class="we-date">2025</span>
       </a>
-      <a class="writing-entry" data-t="stories" href="#" target="_blank" rel="noopener">
-        <div class="we-left"><span class="we-title">Writing Title #5</span><span class="we-tag">short story</span></div>
-        <span class="we-date">2024</span>
-      </a>
-
-      <!-- RESEARCH -->
-      <a class="writing-entry research" data-t="research" href="#" target="_blank" rel="noopener">
-        <div class="we-left"><span class="we-title">Research Paper Title #1</span><span class="we-tag">research · insert journal</span></div>
+      <a class="writing-entry" data-t="poetry" href="javascript:void(0)">
+        <div class="we-left"><span class="we-title">The Storm Takes All</span><span class="we-tag">poetry</span></div>
         <span class="we-date">2025</span>
       </a>
-      <a class="writing-entry research" data-t="research" href="#" target="_blank" rel="noopener">
-        <div class="we-left"><span class="we-title">Research Paper Title #2</span><span class="we-tag">research · insert journal</span></div>
-        <span class="we-date">2024</span>
+      <a class="writing-entry" data-t="poetry" href="javascript:void(0)">
+        <div class="we-left"><span class="we-title">Remains</span><span class="we-tag">poetry</span></div>
+        <span class="we-date">2025</span>
       </a>
 
     </div>
@@ -566,18 +93,11 @@ footer {
   <div class="inner">
     <h2 class="sec-title sr">videos</h2>
     <div class="video-grid sr d1">
-      <a class="video-card" href="INSERTYOUTUBELINK1" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="insertthumbnail1.jpg" alt="thumbnail" onerror="this.style.display='none'"><div class="play-icon"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div></div>
-        <div class="video-info"><div class="video-title">Video Title #1</div><div class="video-meta">insert date · insert duration</div></div>
+      <a class="video-card" href="https://www.youtube.com/watch?v=NqMZNaN93ko&t=3s" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://img.youtube.com/vi/NqMZNaN93ko/0.jpg" alt="thumbnail" onerror="this.style.display='none'"><div class="play-icon"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div></div>
+        <div class="video-info"><div class="video-title">Anxious Generation — Book Thoughts</div><div class="video-meta">youtube</div></div>
       </a>
-      <a class="video-card" href="INSERTYOUTUBELINK2" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="insertthumbnail2.jpg" alt="thumbnail" onerror="this.style.display='none'"><div class="play-icon"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div></div>
-        <div class="video-info"><div class="video-title">Video Title #2</div><div class="video-meta">insert date · insert duration</div></div>
-      </a>
-      <a class="video-card" href="INSERTYOUTUBELINK3" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="insertthumbnail3.jpg" alt="thumbnail" onerror="this.style.display='none'"><div class="play-icon"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div></div>
-        <div class="video-info"><div class="video-title">Video Title #3</div><div class="video-meta">insert date · insert duration</div></div>
-      </a>
+
     </div>
   </div>
 </section>
@@ -586,16 +106,12 @@ footer {
 <section id="contact">
   <div class="inner">
     <h2 class="sec-title sr">contact</h2>
-    <p class="contact-tagline sr d1">Say hello — I'd love to hear from you.</p>
     <div class="contact-links sr d2">
-      <a class="contact-link" href="INSERTYOURLINKEDINLINKHERE" target="_blank" rel="noopener">
-        <span class="cl-label">linkedin</span><span class="cl-val">linkedin.com/in/sukhi</span>
+      <a class="contact-link" href="https://www.linkedin.com/in/sukanya-menon-603503339/?skipRedirect=true" target="_blank" rel="noopener">
+        <span class="cl-label">linkedin</span><span class="cl-val">linkedin.com/in/sukanya-menon</span>
       </a>
-      <a class="contact-link" href="mailto:INSERTYOUREMAILHERE">
-        <span class="cl-label">email</span><span class="cl-val">INSERTYOUREMAILHERE</span>
-      </a>
-      <a class="contact-link" href="INSERTOTHERLINK" target="_blank" rel="noopener">
-        <span class="cl-label">elsewhere</span><span class="cl-val">insert link here</span>
+      <a class="contact-link" href="mailto:soysukanya@gmail.com">
+        <span class="cl-label">email</span><span class="cl-val">soysukanya@gmail.com</span>
       </a>
     </div>
   </div>
@@ -603,20 +119,18 @@ footer {
 
 <footer>
   <span>© 2025 sukanya menon</span>
-  <span>made with care &amp; a great deal of tea</span>
 </footer>
 
-<script>
-const cur = document.getElementById('cur');
-document.addEventListener('mousemove', e => {
-  cur.style.left = e.clientX + 'px';
-  cur.style.top  = e.clientY + 'px';
-});
-document.querySelectorAll('a, button, .art-card, .video-card, .writing-entry').forEach(el => {
-  el.addEventListener('mouseenter', () => cur.classList.add('big'));
-  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
-});
+<!-- ── POEM MODAL ── -->
+<div class="paper-modal" id="paperModal">
+  <div class="paper-sheet">
+    <button class="paper-close" aria-label="Close">&times;</button>
+    <h3 class="paper-title"></h3>
+    <div class="paper-body"></div>
+  </div>
+</div>
 
+<script>
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('filled', window.scrollY > 60);
@@ -642,7 +156,100 @@ function fw(type, btn) {
   });
 }
 
-const BC = ['#CFA96F','#793B2B','#BD5B30','#ECE1C9','#342B22'];
+const POEMS = {
+  'A Marshmallow Roasted Just Right': `Porcelain skin.
+With a taste already so sweet,
+Already enough.
+Yet you offer it to the mouth of the fire.
+Not to destroy,
+Only to tempt the flames,
+Just enough for them to leave a warm kiss.
+So close to burning beyond value,
+But you pull it out just in time.
+Golden...
+Golden brown.
+The best of its kind.`,
+  'The Battle Unicorn': `A crash marches forward, so powerful, enough to scare a guy
+They stomp through the mud, making the earth sigh.
+By day little boys and girls draw,
+Soft creatures of glitter and shimmering awe.
+But out in the grass where you can hear the birds' lullaby
+Lies, instead, skin thick as armor and a horn pointed high
+A spear towards the clouds, reaching up to the sky.
+Its mane isn't tangled with flowers and flair,
+Just bristly small hair poking out here and there.
+She is a battle unicorn ready to flare.`,
+  'The Knowing the Unknowing': `It is a cycle, a ceaseless loop,
+a wheel that grinds bone to dust.
+Life stretches beyond these few years,
+It lingers until my skin is tissue-thin,
+a parchment of regret.
+Until my smile lines carve trenches,
+not the way a blade might,
+not the way steel whispers against flesh,
+but the way small, desperate hands once tore through sand,
+digging, always digging, searching for something never there.
+And then, it crashes:
+the knowing, the unknowing,
+how little now matters,
+how much it does.
+I do not know how to hold it,
+whether to let it drown me or drain away.
+I do not know what to feel,
+everything, or nothing at all.`,
+  'The Storm Takes All': `The thunder gnashes its teeth.
+The trees kneel, brittle-knuckled,
+offering their bones, their spines,
+the slow snap, the wrench, the hollow sob.
+They are obedient.
+They give their limbs, their quiet grief,
+their shelter split at the seams.
+The storm is a mouth. It swallows.
+And when it has had its fill,
+when the sky exhales, streaked and spent,
+when the light peels itself open like a wound,
+they call the rainbow beautiful.
+And there the fallen trees remain,
+bare and shamed.`,
+  'Remains': `The snake is not the skin it sheds
+That is only what it leaves behind.
+A person is not their body
+When breath has gone.
+It is what they leave in others
+That keeps their name alive.`
+};
+
+document.querySelectorAll('.writing-entry').forEach(entry => {
+  entry.addEventListener('click', e => {
+    e.preventDefault();
+    const title = entry.querySelector('.we-title').textContent;
+    const body = POEMS[title];
+    if (!body) return;
+    document.querySelector('.paper-title').textContent = title;
+    document.querySelector('.paper-body').textContent = body;
+    document.getElementById('paperModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeModal() {
+  document.getElementById('paperModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelector('.paper-close').addEventListener('click', closeModal);
+document.getElementById('paperModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) {
+    closeModal();
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+  }
+});
+
+const BC = ['#7A8B69','#B8927A','#C9A84C','#9AAE8A','#D4B896'];
 document.addEventListener('click', e => {
   const b = document.createElement('div');
   b.className = 'burst';
